@@ -29,11 +29,14 @@
 
   if (!menuToggle || !mainNav) return;
 
+  const desktopMQ = window.matchMedia('(min-width: 1024px)');
+
   function openMenu() {
     mainNav.classList.add('is-open');
     menuToggle.setAttribute('aria-expanded', 'true');
     menuToggle.setAttribute('aria-label', 'Cerrar menú de navegación');
     if (overlay) overlay.removeAttribute('hidden');
+    mainNav.inert = false;
   }
 
   function closeMenu() {
@@ -41,6 +44,7 @@
     menuToggle.setAttribute('aria-expanded', 'false');
     menuToggle.setAttribute('aria-label', 'Abrir menú de navegación');
     if (overlay) overlay.setAttribute('hidden', '');
+    if (!desktopMQ.matches) mainNav.inert = true;
   }
 
   menuToggle.addEventListener('click', function () {
@@ -65,6 +69,17 @@
   if (overlay) {
     overlay.addEventListener('click', closeMenu);
   }
+
+  // Initialize inert state: sidebar links must not be reachable while closed on mobile
+  if (!desktopMQ.matches) mainNav.inert = true;
+
+  desktopMQ.addEventListener('change', function () {
+    if (desktopMQ.matches) {
+      mainNav.inert = false;
+    } else if (menuToggle.getAttribute('aria-expanded') !== 'true') {
+      mainNav.inert = true;
+    }
+  });
 }());
 
 // --- Contact form → WhatsApp ---
@@ -102,9 +117,11 @@
     const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`;
     window.open(url, '_blank', 'noopener,noreferrer');
 
+    contactForm.reset();
+
     if (formFeedback) {
       formFeedback.textContent = '¡Listo! Si WhatsApp no se abrió automáticamente, escribinos directamente.';
+      formFeedback.focus();
     }
-    contactForm.reset();
   });
 }());

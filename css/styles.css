@@ -154,9 +154,17 @@ ul {
    ============================================= */
 
 :focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 3px;
+  outline: 3px solid var(--color-accent);
+  outline-offset: 4px;
   border-radius: var(--radius-sm);
+}
+
+/* Gold-background buttons: outline must contrast with the button fill */
+.btn-primary:focus-visible,
+form button[type="submit"]:focus-visible {
+  outline: 3px solid var(--color-text);
+  outline-offset: 4px;
+  box-shadow: 0 0 0 4px rgb(194 155 87 / 0.35);
 }
 
 
@@ -918,6 +926,18 @@ address a:hover {
 
 .faq-item[open] > summary {
   border-bottom: 1px solid var(--color-border);
+}
+
+/* outline-offset:-2px stays inside overflow:hidden so it's never clipped */
+.faq-item summary:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: -2px;
+  border-radius: var(--radius);
+}
+
+.faq-item:focus-within {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgb(194 155 87 / 0.25);
 }
 
 .faq-answer {
