@@ -19,9 +19,9 @@
 <body>
 
   <header>
-    <div class="container">
+    <div class="container header-content">
       <span class="site-name">Pastoral Juvenil SMP</span>
-      <nav aria-label="Navegación principal">
+      <nav class="main-nav" aria-label="Navegación principal">
         <ul>
           <li><a href="#nosotros">Sobre nosotros</a></li>
           <li><a href="#primer-paso">Primer paso</a></li>
@@ -38,10 +38,14 @@
 
     <section id="hero" aria-labelledby="hero-title">
       <div class="container">
-        <div class="hero-content">
-          <h1 id="hero-title">Pastoral Juvenil San Martín de Porres</h1>
-          <p class="hero-subtitle">Somos jóvenes de San Carlos que encontramos en la fe y el servicio un lugar para crecer juntos.</p>
-          <a href="#contacto" class="btn-primary">Quiero participar</a>
+        <div class="hero-grid">
+          <div class="hero-text">
+            <h1 id="hero-title">Pastoral Juvenil San Martín de Porres</h1>
+            <p class="hero-subtitle">Somos jóvenes de San Carlos que encontramos en la fe y el servicio un lugar para crecer juntos.</p>
+            <div class="hero-actions">
+              <a href="#contacto" class="btn-primary">Quiero participar</a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -122,50 +126,57 @@
     <section id="contacto" aria-labelledby="contacto-title">
       <div class="container">
         <h2 id="contacto-title">Contacto</h2>
-        <form>
-          <div class="form-group">
-            <label for="nombre">Nombre</label>
-            <input type="text" id="nombre" name="nombre" autocomplete="name" required>
+        <div class="contact-grid">
+          <div class="contact-info">
+            <p>¿Querés participar o tenés preguntas? Completá el formulario o escribinos directamente por WhatsApp.</p>
+            <a href="https://wa.me/50600000000" class="btn-whatsapp" target="_blank" rel="noopener noreferrer">
+              Escribinos por WhatsApp
+            </a>
           </div>
-          <div class="form-group">
-            <label for="telefono">Teléfono / WhatsApp</label>
-            <input type="tel" id="telefono" name="telefono" autocomplete="tel">
-          </div>
-          <div class="form-group">
-            <label for="como-nos-conociste">¿Cómo nos conociste?</label>
-            <select id="como-nos-conociste" name="como-nos-conociste">
-              <option value="">Seleccioná una opción</option>
-              <option value="redes-sociales">Redes sociales</option>
-              <option value="amigo">Por un amigo o familiar</option>
-              <option value="parroquia">En la parroquia</option>
-              <option value="otro">Otro</option>
-            </select>
-          </div>
-          <button type="submit">Enviar</button>
-        </form>
-        <a href="https://wa.me/50600000000" class="btn-whatsapp" target="_blank" rel="noopener noreferrer">
-          Escribinos por WhatsApp
-        </a>
+          <form>
+            <div class="form-group">
+              <label for="nombre">Nombre</label>
+              <input type="text" id="nombre" name="nombre" autocomplete="name" required>
+            </div>
+            <div class="form-group">
+              <label for="telefono">Teléfono / WhatsApp</label>
+              <input type="tel" id="telefono" name="telefono" autocomplete="tel">
+            </div>
+            <div class="form-group">
+              <label for="como-nos-conociste">¿Cómo nos conociste?</label>
+              <select id="como-nos-conociste" name="como-nos-conociste">
+                <option value="">Seleccioná una opción</option>
+                <option value="redes-sociales">Redes sociales</option>
+                <option value="amigo">Por un amigo o familiar</option>
+                <option value="parroquia">En la parroquia</option>
+                <option value="otro">Otro</option>
+              </select>
+            </div>
+            <button type="submit">Enviar</button>
+          </form>
+        </div>
       </div>
     </section>
 
   </main>
 
   <footer>
-    <div class="container">
-      <p class="footer-name">Pastoral Juvenil San Martín de Porres</p>
-      <p>Parroquia [nombre por confirmar] · Ciudad Quesada, San Carlos, Costa Rica</p>
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <p class="footer-name">Pastoral Juvenil San Martín de Porres</p>
+        <p>Parroquia [nombre por confirmar] · Ciudad Quesada, San Carlos, Costa Rica</p>
+        <address>
+          <p>[Dirección de la parroquia]</p>
+          <p>Ciudad Quesada, San Carlos, Costa Rica</p>
+          <p><a href="mailto:contacto@pastoraljuvenilsmp.cr">contacto@pastoraljuvenilsmp.cr</a></p>
+        </address>
+      </div>
       <nav aria-label="Navegación de pie de página">
         <ul>
           <li><a href="#" aria-label="Instagram de Pastoral Juvenil SMP">Instagram</a></li>
           <li><a href="#" aria-label="Facebook de Pastoral Juvenil SMP">Facebook</a></li>
         </ul>
       </nav>
-      <address>
-        <p>[Dirección de la parroquia]</p>
-        <p>Ciudad Quesada, San Carlos, Costa Rica</p>
-        <p><a href="mailto:contacto@pastoraljuvenilsmp.cr">contacto@pastoraljuvenilsmp.cr</a></p>
-      </address>
     </div>
   </footer>
 
