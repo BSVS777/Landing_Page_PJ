@@ -20,19 +20,40 @@
 
   <header>
     <div class="container header-content">
-      <span class="site-name">Pastoral Juvenil SMP</span>
-      <nav class="main-nav" aria-label="Navegación principal">
+      <a href="#hero" class="site-logo">
+        <img src="img/logo_opt.png" alt="Logo de la Pastoral Juvenil San Martín de Porres">
+        <span class="visually-hidden">Pastoral Juvenil San Martín de Porres</span>
+      </a>
+      <nav id="main-nav" class="main-nav" aria-label="Navegación principal">
         <ul>
           <li><a href="#nosotros">Sobre nosotros</a></li>
-          <li><a href="#primer-paso">Primer paso</a></li>
           <li><a href="#actividades">Actividades</a></li>
-          <li><a href="#testimonios">Testimonios</a></li>
+          <li><a href="#ubicacion">Ubicación</a></li>
+          <li><a href="#faq">FAQ</a></li>
           <li><a href="#contacto">Contacto</a></li>
         </ul>
       </nav>
-      <button type="button" id="theme-toggle" aria-label="Cambiar tema">Cambiar tema</button>
+
+      <div class="header-actions">
+        <label for="switch" class="switch">
+          <input id="switch" type="checkbox" aria-label="Cambiar tema claro u oscuro">
+          <span class="slider" aria-hidden="true"></span>
+          <span class="decoration" aria-hidden="true"></span>
+        </label>
+        <button
+          type="button"
+          class="menu-toggle"
+          aria-label="Abrir menú de navegación"
+          aria-expanded="false"
+          aria-controls="main-nav"
+        >
+          <span class="menu-cross" aria-hidden="true"></span>
+        </button>
+      </div>
     </div>
   </header>
+
+  <div class="nav-overlay" hidden></div>
 
   <main>
 
@@ -53,7 +74,7 @@
     <section id="nosotros" class="section-alt" aria-labelledby="nosotros-title">
       <div class="container">
         <h2 id="nosotros-title">Sobre nosotros</h2>
-        <p>San Martín de Porres vivió con humildad, entrega y servicio a los demás. Inspirados en su ejemplo, somos un grupo de jóvenes de Ciudad Quesada que buscamos crecer en la fe mientras servimos a nuestra comunidad. Nos reunimos en la Parroquia San José, acompañados por nuestro asesor espiritual.</p>
+        <p>San Martín de Porres vivió con humildad, entrega y servicio a los demás. Inspirados en su ejemplo, somos un grupo de jóvenes de Ciudad Quesada que buscamos crecer en la fe mientras servimos a nuestra comunidad. Nos reunimos en la Parroquia San Martín, acompañados por nuestro asesor espiritual.</p>
       </div>
     </section>
 
@@ -63,7 +84,7 @@
         <div class="first-step-grid">
           <article>
             <h3>¿Dónde llegar?</h3>
-            <p>Nos reunimos en el Salón Parroquial San José, a 100 m este de la Catedral. Ciudad Quesada, San Carlos, Costa Rica.</p>
+            <p>Nos reunimos en las Aulas de Catecismo de la Parroquia San Martín, Ciudad Quesada, San Carlos, Costa Rica.</p>
           </article>
           <article>
             <h3>¿Qué pasa al entrar?</h3>
@@ -82,8 +103,8 @@
         <h2 id="actividades-title">Actividades</h2>
         <div class="activities-grid">
           <article>
-            <h3>Reuniones semanales</h3>
-            <p>Nos encontramos cada viernes a las 7:00 p.m. en el Salón Parroquial San José. Un espacio para compartir, reflexionar y crecer juntos en la fe.</p>
+            <h3>Reuniones regulares</h3>
+            <p>Nos reunimos el segundo y cuarto sábado del mes a las 7:00 p.m. en las Aulas de catecismo de la Parroquia San Martín. Un espacio para compartir, reflexionar y crecer juntos en la fe.</p>
           </article>
           <article>
             <h3>Servicio social</h3>
@@ -123,13 +144,79 @@
       </div>
     </section>
 
+    <section id="ubicacion" class="section section-alt" aria-labelledby="ubicacion-title">
+      <div class="container">
+        <h2 id="ubicacion-title">Dónde nos reunimos</h2>
+        <div class="ubicacion-grid">
+          <div class="ubicacion-info">
+            <address class="ubicacion-address">
+              <p><strong>Aulas de catecismo Parroquia San Martín</strong></p>
+              <p>50 m Sur de la Plaza de San Martín</p>
+              <p>Ciudad Quesada, San Carlos, Costa Rica</p>
+            </address>
+            <p class="ubicacion-schedule"><strong>Reuniones:</strong> segundo y cuarto sábado del mes a las 7:00 p.m.</p>
+            <p>Si es tu primera vez, no te preocupes. Vas a ser recibido con calidez desde que llegás. Este es un espacio pensado para jóvenes que buscan algo genuino, sin importar si venís solo o sin conocer a nadie todavía.</p>
+            <a href="https://maps.app.goo.gl/7fA8QDrGfb1qNYX98" class="btn-primary" target="_blank" rel="noopener noreferrer">Ver ubicación en Google Maps</a>
+          </div>
+          <div class="map-visual" aria-hidden="true">
+            <div class="map-marker-wrap">
+              <div class="map-pin"></div>
+              <div class="map-popup">
+                <span class="map-venue">Aulas de catecismo San Martín</span>
+                <span class="map-sublabel">Ciudad Quesada · San Carlos</span>
+              </div>
+            </div>
+            <span class="map-region">Costa Rica</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="section" aria-labelledby="faq-title">
+      <div class="container">
+        <h2 id="faq-title">Preguntas frecuentes</h2>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary>¿Tengo que avisar antes de llegar?</summary>
+            <div class="faq-answer">
+              <p>No es necesario. Podés llegar sin previo aviso cualquier reunión. Solo vení con ganas.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>¿Necesito conocer a alguien?</summary>
+            <div class="faq-answer">
+              <p>Para nada. Muchos llegamos sin conocer a nadie y hoy somos parte de la familia. Vas a ser bienvenido desde el primer momento.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>¿Qué debo llevar?</summary>
+            <div class="faq-answer">
+              <p>Nada especial. Solo vos y tus ganas de compartir. No se requiere ningún material ni experiencia previa.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>¿Qué hacen en una reunión?</summary>
+            <div class="faq-answer">
+              <p>Empezamos con una dinámica para conocernos, luego hay una reflexión breve y cerramos compartiendo. Es un ambiente relajado y cercano.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>¿Cómo puedo contactar al grupo?</summary>
+            <div class="faq-answer">
+              <p>Podés escribirnos por <a href="https://wa.me/50687131710" target="_blank" rel="noopener noreferrer">WhatsApp</a> o completar el formulario en la sección <a href="#contacto">Contacto</a>.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
     <section id="contacto" class="section-alt" aria-labelledby="contacto-title">
       <div class="container">
         <h2 id="contacto-title">Contacto</h2>
         <div class="contact-grid">
           <div class="contact-info">
             <p>¿Querés participar o tenés preguntas? Completá el formulario o escribinos directamente por WhatsApp.</p>
-            <a href="https://wa.me/50600000000" class="btn-whatsapp" target="_blank" rel="noopener noreferrer">
+            <a href="https://wa.me/50687131710" class="btn-whatsapp" target="_blank" rel="noopener noreferrer">
               Escribinos por WhatsApp
             </a>
           </div>
@@ -153,6 +240,7 @@
               </select>
             </div>
             <button type="submit">Enviar</button>
+            <p id="form-feedback" class="form-feedback" aria-live="polite" aria-atomic="true"></p>
           </form>
         </div>
       </div>
@@ -164,16 +252,16 @@
     <div class="container footer-content">
       <div class="footer-brand">
         <p class="footer-name">Pastoral Juvenil San Martín de Porres</p>
-        <p>Parroquia San José · Ciudad Quesada, San Carlos, Costa Rica</p>
+        <p>Parroquia San Martín · Ciudad Quesada, San Carlos, Costa Rica</p>
         <address>
-          <p>100 m este de la Catedral</p>
+          <p>50 m sur de la plaza de San Martín</p>
           <p>Ciudad Quesada, San Carlos, Costa Rica</p>
           <p><a href="mailto:contacto@pastoraljuvenilsmp.cr">contacto@pastoraljuvenilsmp.cr</a></p>
         </address>
       </div>
       <nav aria-label="Navegación de pie de página">
         <ul>
-          <li><a href="#" aria-label="Instagram de Pastoral Juvenil SMP">Instagram</a></li>
+          <li><a href="https://www.instagram.com/pj_sanmartin_?igsh=NzR6NTUwNHhmcHpl" aria-label="Instagram de Pastoral Juvenil SMP">Instagram</a></li>
           <li><a href="#" aria-label="Facebook de Pastoral Juvenil SMP">Facebook</a></li>
         </ul>
       </nav>

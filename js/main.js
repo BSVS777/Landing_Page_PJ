@@ -1,23 +1,110 @@
-// main.js — Day 4
+// main.js — v2
 (function () {
   const STORAGE_KEY = 'tema';
   const DARK_CLASS = 'dark-theme';
 
-  const toggle = document.getElementById('theme-toggle');
+  // --- Theme switch ---
+  const themeSwitch = document.getElementById('switch');
 
   function applyTheme(theme) {
     const isDark = theme === 'dark';
     document.body.classList.toggle(DARK_CLASS, isDark);
-    toggle.setAttribute('aria-label', isDark ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro');
+    if (themeSwitch) themeSwitch.checked = isDark;
   }
 
-  // Restore saved preference on load
   applyTheme(localStorage.getItem(STORAGE_KEY) || 'light');
 
-  toggle.addEventListener('click', function () {
-    const isDark = document.body.classList.contains(DARK_CLASS);
-    const next = isDark ? 'light' : 'dark';
-    applyTheme(next);
-    localStorage.setItem(STORAGE_KEY, next);
+  if (themeSwitch) {
+    themeSwitch.addEventListener('change', function () {
+      const isDark = themeSwitch.checked;
+      document.body.classList.toggle(DARK_CLASS, isDark);
+      localStorage.setItem(STORAGE_KEY, isDark ? 'dark' : 'light');
+    });
+  }
+
+  // --- Sidebar menu ---
+  const menuToggle = document.querySelector('.menu-toggle');
+  const mainNav = document.getElementById('main-nav');
+  const overlay = document.querySelector('.nav-overlay');
+
+  if (!menuToggle || !mainNav) return;
+
+  function openMenu() {
+    mainNav.classList.add('is-open');
+    menuToggle.setAttribute('aria-expanded', 'true');
+    menuToggle.setAttribute('aria-label', 'Cerrar menú de navegación');
+    if (overlay) overlay.removeAttribute('hidden');
+  }
+
+  function closeMenu() {
+    mainNav.classList.remove('is-open');
+    menuToggle.setAttribute('aria-expanded', 'false');
+    menuToggle.setAttribute('aria-label', 'Abrir menú de navegación');
+    if (overlay) overlay.setAttribute('hidden', '');
+  }
+
+  menuToggle.addEventListener('click', function () {
+    if (menuToggle.getAttribute('aria-expanded') === 'true') {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && menuToggle.getAttribute('aria-expanded') === 'true') {
+      closeMenu();
+      menuToggle.focus();
+    }
+  });
+
+  mainNav.querySelectorAll('a[href^="#"]').forEach(function (link) {
+    link.addEventListener('click', closeMenu);
+  });
+
+  if (overlay) {
+    overlay.addEventListener('click', closeMenu);
+  }
+}());
+
+// --- Contact form → WhatsApp ---
+(function () {
+  // TODO: verify this number is correct before going live
+  const WHATSAPP_NUMBER = '50687131710';
+
+  const contactForm = document.querySelector('#contacto form');
+  if (!contactForm) return;
+
+  const formFeedback = document.getElementById('form-feedback');
+
+  contactForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const nombre = (contactForm.querySelector('#nombre').value || '').trim();
+    const telefono = (contactForm.querySelector('#telefono').value || '').trim();
+    const origen = contactForm.querySelector('#como-nos-conociste').value;
+
+    const origenLabels = {
+      'redes-sociales': 'redes sociales',
+      'amigo': 'un amigo o familiar',
+      'parroquia': 'la parroquia',
+      'otro': 'otro medio'
+    };
+    const origenTexto = origen
+      ? (origenLabels[origen] || 'otro medio')
+      : 'un medio no especificado';
+    const telefonoTexto = telefono ? ` Mi teléfono es ${telefono}.` : '';
+
+    const mensaje =
+      `Hola, soy ${nombre}. Me gustaría participar en la Pastoral Juvenil San Martín de Porres.` +
+      `${telefonoTexto} Los conocí por ${origenTexto}.`;
+
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
+
+    if (formFeedback) {
+      formFeedback.textContent = '¡Listo! Si WhatsApp no se abrió automáticamente, escribinos directamente.';
+    }
+    contactForm.reset();
   });
 }());
