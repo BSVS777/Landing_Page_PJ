@@ -485,6 +485,20 @@ header {
   align-items: center;
 }
 
+.hero-media {
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 
 /* =============================================
    BUTTONS
@@ -576,6 +590,38 @@ header {
 .first-step-grid article h3,
 .activities-grid article h3 {
   margin-bottom: var(--space-xs);
+}
+
+/* Activities cards: two-zone layout */
+.activities-grid .activities-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 520px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.activity-icon-zone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-sm);
+  border-bottom: 1px solid var(--color-border);
+  flex: 0 0 260px;
+}
+
+.activity-icon {
+  display: block;
+  width: 85%;
+  max-width: 240px;
+  max-height: 220px;
+  height: auto;
+  object-fit: contain;
+}
+
+.activity-content {
+  flex: 1;
+  padding: var(--space-md);
 }
 
 /* Testimonial figures */
@@ -750,6 +796,32 @@ address a {
 
 address a:hover {
   color: var(--color-accent);
+}
+
+
+/* =============================================
+   ABOUT SECTION — mobile: single column
+   ============================================= */
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-md);
+  align-items: center;
+}
+
+.about-media {
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.about-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 
@@ -1024,7 +1096,7 @@ address a:hover {
     grid-template-columns: 1fr 1fr;
   }
 
-  /* Without an image sibling, hero-text expands to full width */
+  /* Without image: hero-text spans full width */
   .hero-text {
     grid-column: 1 / -1;
   }
@@ -1033,9 +1105,10 @@ address a:hover {
     grid-column: 1;
   }
 
-  .hero-grid .hero-image {
-    border-radius: var(--radius);
-    overflow: hidden;
+  /* About: 2-column layout */
+  .about-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg);
   }
 
   /* Card grids: 3 columns */
