@@ -15,8 +15,12 @@
   --font-body:    'Inter', Arial, sans-serif;
 
   /* Type scale */
-  --text-h1:    clamp(1.75rem, 5vw + 1rem, 2.5rem);
-  --text-h2:    clamp(1.375rem, 3vw + 0.75rem, 1.75rem);
+  /* El componente en vw de h1/h2 no depende del font-size raíz (vw es
+     relativo al viewport, no a rem), así que se multiplica explícitamente
+     por --a11y-text-scale para que el panel de accesibilidad también se
+     note en estos dos títulos fluidos, no solo en el texto que es 100% rem. */
+  --text-h1:    clamp(1.75rem, calc(5vw * var(--a11y-text-scale)) + 1rem, 2.5rem);
+  --text-h2:    clamp(1.375rem, calc(3vw * var(--a11y-text-scale)) + 0.75rem, 1.75rem);
   --text-h3:    1.25rem;
   --text-body:  1rem;
   --text-small: 0.875rem;
@@ -45,6 +49,14 @@
   /* Motion — overridden to 0s by reduced-motion media query and the
      a11y-reduce-motion class (see REDUCED MOTION block at the end). */
   --transition-duration: 0.25s;
+
+  /* Escala de texto del panel de accesibilidad — overridden a 1.15/1.3 por
+     html.a11y-text-115/130 (ver ACCESIBILIDAD/UTILIDADES). El mecanismo
+     principal es el font-size porcentual sobre <html>, que escala en
+     cascada todo lo que usa rem sin tocar cada selector; esta variable
+     existe solo para los dos títulos fluidos (h1/h2) cuyo componente en vw
+     no es root-relative y por eso no se beneficia del cambio de font-size. */
+  --a11y-text-scale: 1;
 }
 
 
@@ -1157,14 +1169,21 @@ address a:hover {
   background: var(--color-surface);
 }
 
-/* Escalas de texto — el panel cambia el font-size raíz; el resto del
-   sistema usa unidades relativas (rem/em/%), por lo que escala en cascada. */
-body.a11y-text-115 {
+/* Escalas de texto — DEBE aplicarse sobre <html>, no <body>: "rem" siempre
+   se resuelve contra el font-size del elemento raíz, nunca contra el de
+   <body>. Poner el font-size porcentual en body no tenía ningún efecto en
+   casi todo el sitio porque la tipografía usa rem (no em), exactamente el
+   bug reportado. Con esto, el resto del sistema (rem/%) escala en cascada
+   sin tocar cada selector; --a11y-text-scale cubre el caso puntual de
+   h1/h2 (ver VARIABLES). */
+html.a11y-text-115 {
   font-size: 115%;
+  --a11y-text-scale: 1.15;
 }
 
-body.a11y-text-130 {
+html.a11y-text-130 {
   font-size: 130%;
+  --a11y-text-scale: 1.3;
 }
 
 

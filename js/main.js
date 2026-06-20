@@ -172,12 +172,16 @@
       document.body.classList.toggle('a11y-reduce-motion', !!prefs.reducirAnimacion);
       document.body.classList.toggle('a11y-underline-links', !!prefs.subrayarEnlaces);
 
+      // Las clases de escala van en <html>, no en <body>: "rem" siempre se
+      // resuelve contra el font-size del elemento raíz (ver css/styles.css,
+      // bloque ACCESIBILIDAD/UTILIDADES) — aplicarlas en body no escalaba
+      // nada porque casi toda la tipografía del sitio usa rem.
       Object.keys(TEXT_SCALE_CLASSES).forEach(function (scale) {
         const cls = TEXT_SCALE_CLASSES[scale];
-        if (cls) document.body.classList.remove(cls);
+        if (cls) document.documentElement.classList.remove(cls);
       });
       const activeScaleClass = TEXT_SCALE_CLASSES[prefs.escalaTexto];
-      if (activeScaleClass) document.body.classList.add(activeScaleClass);
+      if (activeScaleClass) document.documentElement.classList.add(activeScaleClass);
 
       if (contrastInput) contrastInput.checked = !!prefs.contraste;
       if (reduceMotionInput) reduceMotionInput.checked = !!prefs.reducirAnimacion;
