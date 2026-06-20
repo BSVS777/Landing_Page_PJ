@@ -84,7 +84,6 @@
 
 // --- Contact form → WhatsApp ---
 (function () {
-  // TODO: verify this number is correct before going live
   const WHATSAPP_NUMBER = '50687131710';
 
   const contactForm = document.querySelector('#contacto form');
