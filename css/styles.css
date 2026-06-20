@@ -1,5 +1,5 @@
 /* =============================================
-   CSS CUSTOM PROPERTIES
+   VARIABLES
    ============================================= */
 
 :root {
@@ -41,9 +41,22 @@
   /* Semantic aliases */
   --color-primary: var(--color-accent);
   --color-card:    var(--color-bg);
+
+  /* Motion — overridden to 0s by reduced-motion media query and the
+     a11y-reduce-motion class (see REDUCED MOTION block at the end). */
+  --transition-duration: 0.25s;
 }
 
-body.dark-theme {
+
+/* =============================================
+   TEMAS
+   ============================================= */
+
+/* Tema oscuro — inversión simple de la paleta base.
+   La estructura ya está lista para que Fase 3 rediseñe estos valores
+   sin tocar la mecánica del switch (HTML/JS no cambian). */
+body.dark-theme,
+html.dark-theme body {
   --color-bg:      #1A1A1A;
   --color-text:    #FDFBF7;
   --color-surface: #2A2A2A;
@@ -51,6 +64,27 @@ body.dark-theme {
   --shadow-sm:     0 1px 3px rgba(0, 0, 0, 0.40);
   --shadow-md:     0 4px 12px rgba(0, 0, 0, 0.50);
   --color-card:    var(--color-surface);
+}
+
+/* Alto contraste — clase independiente del panel de accesibilidad.
+   Redefine las mismas variables que los temas claro/oscuro, por lo que
+   convive con cualquiera de los dos (selector compuesto cuando aplica). */
+body.a11y-high-contrast {
+  --color-bg:      #FFFFFF;
+  --color-text:    #000000;
+  --color-accent:  #8A6326;
+  --color-surface: #FFFFFF;
+  --color-border:  #000000;
+  --color-card:    #FFFFFF;
+}
+
+body.dark-theme.a11y-high-contrast {
+  --color-bg:      #000000;
+  --color-text:    #FFFFFF;
+  --color-accent:  #E0B868;
+  --color-surface: #000000;
+  --color-border:  #FFFFFF;
+  --color-card:    #000000;
 }
 
 
@@ -133,7 +167,7 @@ ul {
 
 
 /* =============================================
-   ACCESSIBILITY UTILITIES
+   ACCESIBILIDAD / UTILIDADES
    ============================================= */
 
 .visually-hidden {
@@ -148,11 +182,26 @@ ul {
   border: 0;
 }
 
+/* Skip link — oculto salvo cuando recibe foco por teclado */
+.skip-link {
+  position: absolute;
+  top: -3rem;
+  left: var(--space-sm);
+  z-index: 200;
+  background-color: var(--color-accent);
+  color: #1A1A1A;
+  padding: 0.625rem 1.25rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  text-decoration: none;
+  transition: top var(--transition-duration) ease;
+}
 
-/* =============================================
-   FOCUS VISIBLE — accessibility
-   ============================================= */
+.skip-link:focus-visible {
+  top: var(--space-sm);
+}
 
+/* Focus visible */
 :focus-visible {
   outline: 3px solid var(--color-accent);
   outline-offset: 4px;
@@ -165,6 +214,16 @@ form button[type="submit"]:focus-visible {
   outline: 3px solid var(--color-text);
   outline-offset: 4px;
   box-shadow: 0 0 0 4px rgb(194 155 87 / 0.35);
+}
+
+/* Subrayado de enlaces — excluye CTA y logo para no romper su apariencia */
+body.a11y-underline-links a:not(.btn-primary):not(.btn-whatsapp):not(.site-logo) {
+  text-decoration: underline;
+}
+
+/* Mobile-only nav links: only relevant under 768px (see MEDIA QUERIES) */
+.nav-mobile-only {
+  /* default: visible; hidden again from 768px in MEDIA QUERIES */
 }
 
 
@@ -195,18 +254,9 @@ section[id] {
   scroll-margin-top: 5rem;
 }
 
-/* Utility card class */
-.card {
-  background-color: var(--color-bg);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
-  padding: var(--space-md);
-  box-shadow: var(--shadow-sm);
-}
-
 
 /* =============================================
-   HEADER
+   HEADER — incluye el menú
    ============================================= */
 
 header {
@@ -275,7 +325,7 @@ header {
   cursor: pointer;
   inset: 0;
   background-color: #5494de;
-  transition: background-color 0.5s;
+  transition: background-color var(--transition-duration);
   border-radius: 30px;
 }
 
@@ -290,7 +340,7 @@ header {
   bottom: 15%;
   background: #5494de;
   box-shadow: inset 15px -4px 0 15px #efdf2b, 0 0 10px 0 #efdf2b;
-  transition: transform 0.5s, box-shadow 0.5s, background-color 0.5s;
+  transition: transform var(--transition-duration), box-shadow var(--transition-duration), background-color var(--transition-duration);
 }
 
 /* Default decoration = cloud */
@@ -304,7 +354,7 @@ header {
   background: white;
   backdrop-filter: blur(10px);
   transform: translateX(-20px);
-  transition: transform 0.5s, width 0.5s, height 0.5s, background-color 0.5s, box-shadow 0.5s;
+  transition: transform var(--transition-duration), width var(--transition-duration), height var(--transition-duration), background-color var(--transition-duration), box-shadow var(--transition-duration);
   box-shadow: -12px 0 0 white, -6px 0 0 1.6px white, 5px 15px 0 1px white,
     1px 17px 0 white, 10px 17px 0 white;
 }
@@ -370,7 +420,7 @@ header {
   height: 2px;
   background: currentColor;
   border-radius: 2px;
-  transition: transform 0.25s ease;
+  transition: transform var(--transition-duration) ease;
 }
 
 .menu-cross::after {
@@ -397,7 +447,7 @@ header {
   background: var(--color-card);
   border-left: 1px solid var(--color-border);
   transform: translateX(100%);
-  transition: transform 0.25s ease;
+  transition: transform var(--transition-duration) ease;
   z-index: 50;
   overflow-y: auto;
 }
@@ -427,6 +477,12 @@ header {
   color: var(--color-accent);
 }
 
+.main-nav a[aria-current="location"] {
+  color: var(--color-accent);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
 /* Overlay */
 .nav-overlay {
   position: fixed;
@@ -437,19 +493,6 @@ header {
 
 .nav-overlay[hidden] {
   display: none;
-}
-
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .menu-cross::before,
-  .menu-cross::after,
-  .main-nav,
-  .slider,
-  .slider::before,
-  .decoration,
-  .faq-item summary::after {
-    transition: none;
-  }
 }
 
 
@@ -501,7 +544,7 @@ header {
 
 
 /* =============================================
-   BUTTONS
+   BOTONES
    ============================================= */
 
 .button,
@@ -517,7 +560,7 @@ header {
   border: 2px solid transparent;
   cursor: pointer;
   text-decoration: none;
-  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  transition: background-color var(--transition-duration) ease, border-color var(--transition-duration) ease, color var(--transition-duration) ease;
 }
 
 /* Primary — gold fill, dark text (contrast: ~5.7:1 on #1A1A1A) */
@@ -533,20 +576,6 @@ header {
   background-color: #a8833d;
   border-color: #a8833d;
   color: #1A1A1A;
-  text-decoration: none;
-}
-
-/* Ghost — outlined */
-.button-ghost {
-  background-color: transparent;
-  color: var(--color-text);
-  border-color: var(--color-border);
-}
-
-.button-ghost:hover {
-  background-color: var(--color-surface);
-  border-color: var(--color-accent);
-  color: var(--color-text);
   text-decoration: none;
 }
 
@@ -707,6 +736,22 @@ body.dark-theme select {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23aaa' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
 }
 
+input[aria-invalid="true"],
+select[aria-invalid="true"] {
+  border-color: #B3261E;
+}
+
+.field-error {
+  display: block;
+  font-size: var(--text-small);
+  color: #B3261E;
+  min-height: 1.25em;
+}
+
+body.dark-theme .field-error {
+  color: #FF8A80;
+}
+
 form button[type="submit"] {
   margin-top: var(--space-xs);
   background-color: var(--color-accent);
@@ -718,12 +763,24 @@ form button[type="submit"] {
   font-weight: 600;
   padding: 0.875rem 1.75rem;
   cursor: pointer;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
+  transition: background-color var(--transition-duration) ease, border-color var(--transition-duration) ease;
 }
 
 form button[type="submit"]:hover {
   background-color: #a8833d;
   border-color: #a8833d;
+}
+
+.form-feedback {
+  margin-top: var(--space-xs);
+  font-size: var(--text-small);
+  color: var(--color-accent);
+  min-height: 1.25em;
+  margin-bottom: 0;
+}
+
+.form-feedback-manual-link {
+  font-weight: 600;
 }
 
 
@@ -915,7 +972,7 @@ address a:hover {
   font-weight: 300;
   color: var(--color-accent);
   flex-shrink: 0;
-  transition: transform 0.2s ease;
+  transition: transform var(--transition-duration) ease;
   line-height: 1;
 }
 
@@ -951,12 +1008,163 @@ address a:hover {
   margin-bottom: 0;
 }
 
-.form-feedback {
-  margin-top: var(--space-xs);
+
+/* =============================================
+   PANEL DE ACCESIBILIDAD Y CONTROLES FLOTANTES
+   ============================================= */
+
+.floating-control {
+  position: fixed;
+  bottom: var(--space-sm);
+  z-index: 90;
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-card);
+  color: var(--color-text);
+  cursor: pointer;
+  font-size: 1.375rem;
+  box-shadow: var(--shadow-md);
+  transition: opacity var(--transition-duration) ease;
+}
+
+/* Accesibilidad: inferior izquierda */
+.a11y-toggle {
+  left: var(--space-sm);
+  left: max(var(--space-sm), env(safe-area-inset-left));
+  bottom: max(var(--space-sm), env(safe-area-inset-bottom));
+}
+
+.a11y-panel {
+  position: fixed;
+  left: var(--space-sm);
+  bottom: calc(var(--space-sm) + 3.5rem);
+  z-index: 95;
+  width: min(90vw, 20rem);
+  max-height: 70vh;
+  overflow-y: auto;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+}
+
+.a11y-panel[hidden] {
+  display: none;
+}
+
+.a11y-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.a11y-panel-header h2 {
+  font-size: var(--text-h3);
+  margin: 0;
+}
+
+.a11y-panel-close {
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-grid;
+  place-items: center;
+  background: transparent;
+  border: 0;
+  color: var(--color-text);
+  font-size: 1.25rem;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+}
+
+.a11y-panel-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-md);
+}
+
+.a11y-control-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  border: 0;
+}
+
+.a11y-control-group legend {
+  font-weight: 600;
+  margin-bottom: var(--space-xs);
+  padding: 0;
+}
+
+.a11y-checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  cursor: pointer;
+  min-height: 44px;
+}
+
+.a11y-checkbox-row input {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+}
+
+.a11y-text-scale-group {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.a11y-scale-btn {
+  flex: 1;
+  min-height: 44px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg);
+  color: var(--color-text);
+  cursor: pointer;
+  font-family: var(--font-body);
   font-size: var(--text-small);
-  color: var(--color-accent);
-  min-height: 1.25em;
-  margin-bottom: 0;
+}
+
+.a11y-scale-btn[aria-pressed="true"] {
+  background: var(--color-accent);
+  color: #1A1A1A;
+  border-color: var(--color-accent);
+  font-weight: 700;
+}
+
+.a11y-reset-btn {
+  min-height: 44px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: 600;
+}
+
+.a11y-reset-btn:hover {
+  background: var(--color-surface);
+}
+
+/* Escalas de texto — el panel cambia el font-size raíz; el resto del
+   sistema usa unidades relativas (rem/em/%), por lo que escala en cascada. */
+body.a11y-text-115 {
+  font-size: 115%;
+}
+
+body.a11y-text-130 {
+  font-size: 130%;
 }
 
 
@@ -975,8 +1183,8 @@ address a:hover {
 
 }
 
-/* --- Desktop: 1024px and up --- */
-@media (min-width: 1024px) {
+/* --- Desktop: 768px and up --- */
+@media (min-width: 768px) {
 
   /* Header: logo | nav centered | actions */
   .header-content {
@@ -1021,6 +1229,18 @@ address a:hover {
   .main-nav a {
     font-size: var(--text-body);
   }
+
+  /* Desktop nav shows only 4 links: Sobre nosotros, Actividades,
+     Testimonios, Contacto. display:none removes these from both the
+     visual flow and the tab order natively. */
+  .nav-mobile-only {
+    display: none;
+  }
+
+}
+
+/* --- Desktop: 1024px and up --- */
+@media (min-width: 1024px) {
 
   /* Hero: 2-column grid when .hero-image is present */
   .hero-grid {
@@ -1069,4 +1289,50 @@ address a:hover {
     align-items: flex-start;
   }
 
+}
+
+
+/* =============================================
+   REDUCED MOTION
+   ============================================= */
+
+/* Dos disparadores para el mismo efecto: la preferencia del sistema
+   (prefers-reduced-motion) y la preferencia manual del panel
+   (body.a11y-reduce-motion). Se centraliza poniendo --transition-duration
+   en 0s bajo ambos selectores — así cualquier regla que ya use la variable
+   (switch, menú, FAQ, paneles) pierde su transición sin repetir selectores
+   de componentes en dos bloques distintos. Las pocas reglas que no usan la
+   variable (transform de animación, no transition) se listan explícitamente. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition-duration: 0s;
+  }
+
+  .menu-cross::before,
+  .menu-cross::after,
+  .main-nav,
+  .slider,
+  .slider::before,
+  .decoration,
+  .faq-item summary::after,
+  .skip-link,
+  .floating-control {
+    transition: none;
+  }
+}
+
+body.a11y-reduce-motion {
+  --transition-duration: 0s;
+}
+
+body.a11y-reduce-motion .menu-cross::before,
+body.a11y-reduce-motion .menu-cross::after,
+body.a11y-reduce-motion .main-nav,
+body.a11y-reduce-motion .slider,
+body.a11y-reduce-motion .slider::before,
+body.a11y-reduce-motion .decoration,
+body.a11y-reduce-motion .faq-item summary::after,
+body.a11y-reduce-motion .skip-link,
+body.a11y-reduce-motion .floating-control {
+  transition: none;
 }

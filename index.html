@@ -4,6 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pastoral Juvenil San Martín de Porres</title>
+
+  <script>
+    // Anti-FOUC: lee la preferencia de tema y la aplica de forma sincrónica
+    // sobre <html>, antes de que el CSS pinte la página (evita el destello).
+    // main.js sigue siendo responsable del switch y de mantener la clase
+    // sobre <body> en tiempo de ejecución; aquí solo se evita el flash inicial.
+    (function () {
+      try {
+        if (localStorage.getItem('tema') === 'dark') {
+          document.documentElement.classList.add('dark-theme');
+        }
+      } catch (e) {
+        // localStorage no disponible (modo privado, permisos, etc.): se ignora,
+        // no hay destello que evitar y main.js seguirá funcionando con normalidad.
+      }
+    }());
+  </script>
   <meta name="description" content="Somos jóvenes de San Carlos que encontramos en la fe y el servicio un lugar para crecer juntos. Pastoral Juvenil San Martín de Porres, Ciudad Quesada.">
   <meta name="theme-color" content="#C29B57">
 
@@ -41,6 +58,8 @@
 </head>
 <body>
 
+  <a href="#main-content" class="skip-link">Saltar al contenido</a>
+
   <header>
     <div class="container header-content">
       <a href="#hero" class="site-logo">
@@ -50,9 +69,11 @@
       <nav id="main-nav" class="main-nav" aria-label="Navegación principal">
         <ul>
           <li><a href="#nosotros">Sobre nosotros</a></li>
+          <li class="nav-mobile-only"><a href="#primer-paso">Tu primer paso</a></li>
           <li><a href="#actividades">Actividades</a></li>
-          <li><a href="#ubicacion">Ubicación</a></li>
-          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#testimonios">Testimonios</a></li>
+          <li class="nav-mobile-only"><a href="#ubicacion">Ubicación</a></li>
+          <li class="nav-mobile-only"><a href="#faq">FAQ</a></li>
           <li><a href="#contacto">Contacto</a></li>
         </ul>
       </nav>
@@ -78,7 +99,62 @@
 
   <div class="nav-overlay" hidden></div>
 
-  <main>
+  <button
+    type="button"
+    id="a11y-panel-toggle"
+    class="floating-control a11y-toggle"
+    aria-haspopup="dialog"
+    aria-expanded="false"
+    aria-controls="a11y-panel"
+    aria-label="Abrir panel de accesibilidad"
+  >
+    <span aria-hidden="true">♿</span>
+  </button>
+
+  <div id="a11y-panel" class="a11y-panel" role="dialog" aria-modal="true" aria-labelledby="a11y-panel-title" hidden>
+    <div class="a11y-panel-header">
+      <h2 id="a11y-panel-title">Accesibilidad</h2>
+      <button type="button" id="a11y-panel-close" class="a11y-panel-close" aria-label="Cerrar panel de accesibilidad">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="a11y-panel-body">
+      <div class="a11y-control-group">
+        <label class="a11y-checkbox-row" for="a11y-contrast">
+          <input type="checkbox" id="a11y-contrast">
+          Alto contraste
+        </label>
+      </div>
+
+      <fieldset class="a11y-control-group">
+        <legend>Tamaño de texto</legend>
+        <div class="a11y-text-scale-group" role="group" aria-label="Tamaño de texto">
+          <button type="button" class="a11y-scale-btn" data-scale="100" aria-pressed="true">100%</button>
+          <button type="button" class="a11y-scale-btn" data-scale="115" aria-pressed="false">115%</button>
+          <button type="button" class="a11y-scale-btn" data-scale="130" aria-pressed="false">130%</button>
+        </div>
+      </fieldset>
+
+      <div class="a11y-control-group">
+        <label class="a11y-checkbox-row" for="a11y-reduce-motion">
+          <input type="checkbox" id="a11y-reduce-motion">
+          Reducir animaciones
+        </label>
+      </div>
+
+      <div class="a11y-control-group">
+        <label class="a11y-checkbox-row" for="a11y-underline-links">
+          <input type="checkbox" id="a11y-underline-links">
+          Subrayar enlaces
+        </label>
+      </div>
+
+      <button type="button" id="a11y-reset" class="a11y-reset-btn">Restablecer</button>
+    </div>
+  </div>
+
+  <main id="main-content">
 
     <section id="hero" aria-labelledby="hero-title">
       <div class="container">
@@ -208,7 +284,7 @@
       </div>
     </section>
 
-    <section id="ubicacion" class="section section-alt" aria-labelledby="ubicacion-title">
+    <section id="ubicacion" class="section-alt" aria-labelledby="ubicacion-title">
       <div class="container">
         <h2 id="ubicacion-title">Dónde nos reunimos</h2>
         <div class="ubicacion-grid">
@@ -234,7 +310,7 @@
       </div>
     </section>
 
-    <section id="faq" class="section" aria-labelledby="faq-title">
+    <section id="faq" aria-labelledby="faq-title">
       <div class="container">
         <h2 id="faq-title">Preguntas frecuentes</h2>
         <div class="faq-list">
@@ -300,24 +376,27 @@
               Escribinos por WhatsApp
             </a>
           </div>
-          <form>
+          <form novalidate>
             <div class="form-group">
               <label for="nombre">Nombre</label>
-              <input type="text" id="nombre" name="nombre" autocomplete="name" required>
+              <input type="text" id="nombre" name="nombre" autocomplete="name" required aria-describedby="nombre-error">
+              <span id="nombre-error" class="field-error"></span>
             </div>
             <div class="form-group">
               <label for="telefono">Teléfono / WhatsApp</label>
-              <input type="tel" id="telefono" name="telefono" autocomplete="tel">
+              <input type="tel" id="telefono" name="telefono" autocomplete="tel" required aria-describedby="telefono-error">
+              <span id="telefono-error" class="field-error"></span>
             </div>
             <div class="form-group">
               <label for="como-nos-conociste">¿Cómo nos conociste?</label>
-              <select id="como-nos-conociste" name="como-nos-conociste">
+              <select id="como-nos-conociste" name="como-nos-conociste" required aria-describedby="como-nos-conociste-error">
                 <option value="">Seleccioná una opción</option>
                 <option value="redes-sociales">Redes sociales</option>
                 <option value="amigo">Por un amigo o familiar</option>
                 <option value="parroquia">En la parroquia</option>
                 <option value="otro">Otro</option>
               </select>
+              <span id="como-nos-conociste-error" class="field-error"></span>
             </div>
             <button type="submit">Enviar</button>
             <p id="form-feedback" class="form-feedback" aria-live="polite" aria-atomic="true" tabindex="-1"></p>
