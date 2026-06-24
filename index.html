@@ -27,14 +27,17 @@
   <meta property="og:title" content="Pastoral Juvenil San Martín de Porres">
   <meta property="og:description" content="Somos jóvenes de San Carlos que encontramos en la fe y el servicio un lugar para crecer juntos.">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="img/logo_opt.png">
+  <meta property="og:image" content="img/fase_1/og-logo.png">
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Pastoral Juvenil San Martín de Porres">
   <meta name="twitter:description" content="Somos jóvenes de San Carlos que encontramos en la fe y el servicio un lugar para crecer juntos.">
-  <meta name="twitter:image" content="img/logo_opt.png">
+  <meta name="twitter:image" content="img/fase_1/og-logo.png">
 
-  <link rel="icon" href="img/logo_opt.png" type="image/png">
+  <link rel="icon" href="img/fase_1/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="img/fase_1/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="img/fase_1/apple-touch-icon.png">
+  <link rel="icon" href="img/fase_1/logo_opt.png" type="image/png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -63,7 +66,7 @@
   <header>
     <div class="container header-content">
       <a href="#hero" class="site-logo">
-        <img src="img/logo_opt.png" alt="Logo de la Pastoral Juvenil San Martín de Porres">
+        <img src="img/fase_1/logo_opt.png" alt="Logo de la Pastoral Juvenil San Martín de Porres">
         <span class="visually-hidden">Pastoral Juvenil San Martín de Porres</span>
       </a>
       <nav id="main-nav" class="main-nav" aria-label="Navegación principal">
@@ -108,8 +111,18 @@
     aria-controls="a11y-panel"
     aria-label="Abrir panel de accesibilidad"
   >
-    <span aria-hidden="true">♿</span>
+    <img src="img/icon-accessibility-fab.svg" alt="" aria-hidden="true" width="22" height="22">
   </button>
+
+  <a
+    href="https://wa.me/50687131710"
+    class="floating-control btn-fab"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Escribinos por WhatsApp"
+  >
+    <img src="img/icon-whatsapp-fab.svg" alt="" aria-hidden="true" width="24" height="24">
+  </a>
 
   <div id="a11y-panel" class="a11y-panel" role="dialog" aria-modal="true" aria-labelledby="a11y-panel-title" hidden>
     <div class="a11y-panel-header">
@@ -158,24 +171,42 @@
 
     <section id="hero" aria-labelledby="hero-title">
       <div class="container">
-        <div class="hero-grid">
+        <div class="hero-grid hero-grid--with-image">
+          <span class="decor decor--blob" aria-hidden="true"></span>
+          <span class="decor decor--blob decor--blob-2" aria-hidden="true"></span>
+          <span class="decor decor--dot decor--dot-1" aria-hidden="true"></span>
+          <span class="decor decor--dot decor--dot-2" aria-hidden="true"></span>
+          <img src="img/fase_1/decoracion-hojas.svg" alt="" class="decor decor--leaf decor--leaf-hero" aria-hidden="true">
+          <img src="img/decoracion-rayos.svg" alt="" class="decor--symbol decor--corner-tr" aria-hidden="true" loading="lazy" width="200" height="200">
+          <img src="img/decoracion-cruz.svg" alt="" class="decor--symbol decor--corner-bl" aria-hidden="true" loading="lazy" width="200" height="200">
           <div class="hero-text">
+            <p class="eyebrow">Pastoral Juvenil · San Martín</p>
             <h1 id="hero-title">Pastoral Juvenil San Martín de Porres</h1>
             <p class="hero-subtitle">Somos jóvenes de San Carlos que encontramos en la fe y el servicio un lugar para crecer juntos.</p>
             <div class="hero-actions">
               <a href="#contacto" class="btn-primary">Quiero participar</a>
+              <a href="#ubicacion" class="btn-secondary">Ver ubicación</a>
             </div>
+            <div class="hero-next-meeting" data-pending="fase4" hidden></div>
           </div>
           <div class="hero-media">
-            <img
-              src="img/Hero.jpeg"
-              alt="Jóvenes reunidos en un ambiente cálido de comunidad"
-              class="hero-image"
-              decoding="async"
-              fetchpriority="high"
-              width="800"
-              height="600"
-            >
+            <picture>
+              <source
+                type="image/webp"
+                srcset="img/fase_1/Hero-480.webp 480w, img/fase_1/Hero-768.webp 768w, img/fase_1/Hero-1200.webp 1200w, img/fase_1/Hero-1600.webp 1600w"
+                sizes="(max-width: 1023px) 100vw, 50vw"
+              >
+              <img
+                src="img/fase_1/Hero.jpeg"
+                alt="Jóvenes reunidos en un ambiente cálido de comunidad"
+                class="hero-image"
+                decoding="async"
+                fetchpriority="high"
+                width="800"
+                height="600"
+                loading="eager"
+              >
+            </picture>
           </div>
         </div>
       </div>
@@ -184,20 +215,30 @@
     <section id="nosotros" class="section-alt" aria-labelledby="nosotros-title">
       <div class="container">
         <div class="about-grid">
+          <img src="img/decoracion-paloma.svg" alt="" class="decor--symbol decor--corner-br" aria-hidden="true" loading="lazy" width="180" height="180">
           <div class="about-content">
             <h2 id="nosotros-title">Sobre nosotros</h2>
             <p>San Martín de Porres vivió con humildad, entrega y servicio a los demás. Inspirados en su ejemplo, somos un grupo de jóvenes de Ciudad Quesada que buscamos crecer en la fe mientras servimos a nuestra comunidad. Nos reunimos en la Parroquia San Martín, con acompañamiento parroquial.</p>
           </div>
-          <div class="about-media">
-            <img
-              src="img/Sobre_nosotros.png"
-              alt="Jóvenes compartiendo en la Pastoral Juvenil San Martín de Porres"
-              class="about-image"
-              loading="lazy"
-              decoding="async"
-              width="800"
-              height="600"
-            >
+          <div class="about-media media-frame">
+            <span class="decor decor--blob decor--blob-soft" aria-hidden="true"></span>
+            <img src="img/fase_1/decoracion-hojas.svg" alt="" class="decor decor--leaf" aria-hidden="true">
+            <picture>
+              <source
+                type="image/webp"
+                srcset="img/fase_1/Sobre_nosotros-480.webp 480w, img/fase_1/Sobre_nosotros-640.webp 640w, img/fase_1/Sobre_nosotros-960.webp 960w"
+                sizes="(max-width: 1023px) 100vw, 50vw"
+              >
+              <img
+                src="img/fase_1/Sobre_nosotros.png"
+                alt="Jóvenes compartiendo en la Pastoral Juvenil San Martín de Porres"
+                class="about-image"
+                loading="lazy"
+                decoding="async"
+                width="800"
+                height="600"
+              >
+            </picture>
           </div>
         </div>
       </div>
@@ -205,17 +246,18 @@
 
     <section id="primer-paso" aria-labelledby="primer-paso-title">
       <div class="container">
+        <img src="img/decoracion-vela.svg" alt="" class="decor--symbol decor--corner-tr" aria-hidden="true" loading="lazy" width="160" height="160">
         <h2 id="primer-paso-title">Tu primer paso</h2>
         <div class="first-step-grid">
-          <article>
+          <article class="feature-card">
             <h3>¿Dónde llegar?</h3>
             <p>Nos reunimos en las Aulas de Catecismo de la Parroquia San Martín, Ciudad Quesada, San Carlos, Costa Rica.</p>
           </article>
-          <article>
+          <article class="feature-card">
             <h3>¿Qué pasa al entrar?</h3>
             <p>Al llegar te vamos a recibir con una cálida bienvenida. Luego nos presentaremos, compartiremos juntos y luego ya eres parte de la familia.</p>
           </article>
-          <article>
+          <article class="feature-card">
             <h3>¿Qué necesito llevar?</h3>
             <p>¡Nada especial! Solo vení con ganas. No se requiere experiencia previa ni ningún material en particular.</p>
           </article>
@@ -227,28 +269,28 @@
       <div class="container">
         <h2 id="actividades-title">Actividades</h2>
         <div class="activities-grid">
-          <article class="activities-card">
-            <div class="activity-icon-zone">
-              <img src="img/RR.svg" alt="Icono de reuniones regulares" class="activity-icon" width="50" height="50">
-            </div>
+          <article class="activities-card feature-card">
+            <figure class="activity-illustration">
+              <img src="img/actividad-reuniones.svg" alt="" loading="lazy">
+            </figure>
             <div class="activity-content">
               <h3>Reuniones regulares</h3>
               <p>Nos reunimos el segundo y cuarto sábado del mes, de 6:00 p. m. a 8:30 p. m., en las Aulas de catecismo de la Parroquia San Martín. Un espacio para compartir, reflexionar y crecer juntos en la fe.</p>
             </div>
           </article>
-          <article class="activities-card">
-            <div class="activity-icon-zone">
-              <img src="img/SS.svg" alt="Icono de servicio social" class="activity-icon" width="160" height="160">
-            </div>
+          <article class="activities-card feature-card">
+            <figure class="activity-illustration">
+              <img src="img/actividad-servicio-social.svg" alt="" loading="lazy">
+            </figure>
             <div class="activity-content">
               <h3>Servicio social</h3>
               <p>Participamos activamente en actividades de servicio a nuestra comunidad, siguiendo el ejemplo de San Martín de Porres.</p>
             </div>
           </article>
-          <article class="activities-card">
-            <div class="activity-icon-zone">
-              <img src="img/EDC.svg" alt="Icono de espacios de compartir" class="activity-icon" width="160" height="160">
-            </div>
+          <article class="activities-card feature-card">
+            <figure class="activity-illustration">
+              <img src="img/actividad-compartir.svg" alt="" loading="lazy">
+            </figure>
             <div class="activity-content">
               <h3>Espacios de compartir</h3>
               <p>Participamos de eventos que unen a jóvenes y comunidades de todo el país como el Día Nacional de la Juventud.</p>
@@ -260,6 +302,7 @@
 
     <section id="testimonios" aria-labelledby="testimonios-title">
       <div class="container">
+        <img src="img/decoracion-rosario.svg" alt="" class="decor--symbol decor--corner-tr" aria-hidden="true" loading="lazy" width="200" height="200">
         <h2 id="testimonios-title">Testimonios</h2>
         <div class="testimonials-grid">
           <figure>
@@ -286,6 +329,7 @@
 
     <section id="ubicacion" class="section-alt" aria-labelledby="ubicacion-title">
       <div class="container">
+        <img src="img/decoracion-cruz.svg" alt="" class="decor--symbol decor--corner-br" aria-hidden="true" loading="lazy" width="160" height="160">
         <h2 id="ubicacion-title">Dónde nos reunimos</h2>
         <div class="ubicacion-grid">
           <div class="ubicacion-info">
@@ -298,7 +342,7 @@
             <p>Si es tu primera vez, no te preocupes. Vas a ser recibido con calidez desde que llegás. Este es un espacio pensado para jóvenes que buscan algo genuino, sin importar si venís solo o sin conocer a nadie todavía.</p>
             <a href="https://maps.app.goo.gl/7fA8QDrGfb1qNYX98" class="btn-primary" target="_blank" rel="noopener noreferrer">Ver ubicación en Google Maps</a>
           </div>
-          <div class="map-visual">
+          <div class="map-visual media-frame media-frame--map">
             <iframe
               src="https://www.google.com/maps?q=Aulas+de+catecismo+Parroquia+San+Mart%C3%ADn,+Ciudad+Quesada,+San+Carlos,+Costa+Rica&output=embed"
               title="Mapa de ubicación: Aulas de catecismo Parroquia San Martín, Ciudad Quesada"
@@ -312,6 +356,7 @@
 
     <section id="faq" aria-labelledby="faq-title">
       <div class="container">
+        <img src="img/decoracion-rayos.svg" alt="" class="decor--symbol decor--corner-tl" aria-hidden="true" loading="lazy" width="160" height="160">
         <h2 id="faq-title">Preguntas frecuentes</h2>
         <div class="faq-list">
           <details class="faq-item">
@@ -368,6 +413,7 @@
 
     <section id="contacto" class="section-alt" aria-labelledby="contacto-title">
       <div class="container">
+        <img src="img/decoracion-paloma.svg" alt="" class="decor--symbol decor--corner-br" aria-hidden="true" loading="lazy" width="160" height="160">
         <h2 id="contacto-title">Contacto</h2>
         <div class="contact-grid">
           <div class="contact-info">
@@ -407,17 +453,21 @@
 
   </main>
 
+  <div class="fire-ribbon" aria-hidden="true"></div>
+
   <footer>
     <div class="container footer-content">
-      <div class="footer-brand">
+      <div class="footer-col footer-brand">
         <p class="footer-name">Pastoral Juvenil San Martín de Porres</p>
         <p>Parroquia San Martín · Ciudad Quesada, San Carlos, Costa Rica</p>
+      </div>
+      <div class="footer-col footer-location">
         <address>
           <p>50 m sur de la plaza de San Martín</p>
           <p>Ciudad Quesada, San Carlos, Costa Rica</p>
         </address>
       </div>
-      <nav aria-label="Navegación de pie de página">
+      <nav class="footer-col" aria-label="Navegación de pie de página">
         <ul>
           <li><a href="https://www.instagram.com/pj_sanmartin_?igsh=NzR6NTUwNHhmcHpl" aria-label="Instagram de Pastoral Juvenil SMP">Instagram</a></li>
         </ul>

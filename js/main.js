@@ -628,6 +628,110 @@
   }
 
   /* =============================================
+     CONTROLES FLOTANTES — idle/opacidad + scroll suave del CTA
+     ============================================= */
+
+  // Helper compartido: true si el usuario pide menos movimiento, ya sea por
+  // preferencia del sistema o por el switch manual del panel de accesibilidad.
+  function prefersReducedMotion() {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+      document.body.classList.contains('a11y-reduce-motion');
+  }
+
+  // Atenúa los controles flotantes (.a11y-toggle, .btn-fab) tras ~3s sin
+  // scroll, y los devuelve a opacidad plena ante scroll/foco/touch. Nunca
+  // llega a 0 (mínimo 0.6) ni toca pointer-events — el control siempre es
+  // clickeable. Un solo listener de scroll en window, throttled con
+  // requestAnimationFrame; un solo setTimeout reutilizado.
+  function initFloatingControls() {
+    const controls = document.querySelectorAll('.floating-control');
+    if (!controls.length) return;
+
+    let idleTimeout = null;
+    let ticking = false;
+
+    function setIdle(isIdle) {
+      controls.forEach(function (control) {
+        control.classList.toggle('is-idle', isIdle);
+      });
+    }
+
+    function scheduleIdle() {
+      setIdle(false);
+      if (idleTimeout) clearTimeout(idleTimeout);
+      idleTimeout = setTimeout(function () {
+        setIdle(true);
+      }, 3000);
+    }
+
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(function () {
+          scheduleIdle();
+          ticking = false;
+        });
+      }
+    }, { passive: true });
+
+    controls.forEach(function (control) {
+      control.addEventListener('focus', scheduleIdle, true);
+      control.addEventListener('mouseenter', scheduleIdle);
+      control.addEventListener('touchstart', scheduleIdle, { passive: true });
+    });
+
+    scheduleIdle();
+  }
+
+  // Scroll programático para el CTA "Ver ubicación": evita depender de
+  // scroll-behavior global en CSS (que no puede condicionarse a
+  // body.a11y-reduce-motion sin :has(), evitado en este proyecto). El href
+  // nativo sigue funcionando como fallback si este script no corre.
+  function initSmoothAnchorScroll() {
+    const link = document.querySelector('a[href="#ubicacion"].btn-secondary');
+    if (!link) return;
+
+    link.addEventListener('click', function (e) {
+      const target = document.getElementById('ubicacion');
+      if (!target) return;
+      e.preventDefault();
+      target.scrollIntoView({
+        behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+        block: 'start'
+      });
+    });
+  }
+
+  // Animación de entrada de .feature-card vía IntersectionObserver, una sola
+  // vez por card. Con reduced motion activo (sistema o panel), se omite el
+  // observer y se revela todo de inmediato para no depender de un disparo
+  // que nunca llega.
+  function initScrollReveal() {
+    const cards = document.querySelectorAll('.feature-card');
+    if (!cards.length) return;
+
+    if (prefersReducedMotion()) {
+      cards.forEach(function (card) {
+        card.classList.add('is-visible');
+      });
+      return;
+    }
+
+    const observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    cards.forEach(function (card) {
+      observer.observe(card);
+    });
+  }
+
+  /* =============================================
      INICIALIZACIÓN
      ============================================= */
 
@@ -644,6 +748,9 @@
     initActiveNavigation();
     initFaqAccordion();
     initContactForm();
+    initSmoothAnchorScroll();
+    initScrollReveal();
+    initFloatingControls();
   }
 
   init();

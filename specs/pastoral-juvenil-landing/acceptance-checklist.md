@@ -71,8 +71,8 @@
 - [x] Botón accesibilidad izquierdo — `#a11y-panel-toggle`, `position: fixed`, `bottom`/`left`, mínimo 44×44px.
 - [x] Alto contraste — `body.a11y-high-contrast` redefine las variables del tema (igual patrón que `dark-theme`), con variante combinada `body.dark-theme.a11y-high-contrast`.
 - [x] Texto 100 — estado por defecto, sin clase adicional.
-- [x] Texto 115 — `body.a11y-text-115 { font-size: 115%; }`.
-- [x] Texto 130 — `body.a11y-text-130 { font-size: 130%; }`.
+- [x] Texto 115 — corregido: `html.a11y-text-115 { font-size: 115%; --a11y-text-scale: 1.15; }`. La implementación original aplicaba la clase sobre `body`, pero `rem` siempre se resuelve contra el font-size del elemento raíz (`html`), no contra `body` — esa es la causa raíz por la que casi ningún texto cambiaba de tamaño. Verificado con Playwright en 13 elementos reales (header, hero, cards, testimonios, ubicación, FAQ, formulario, footer, botones, panel): los 13 escalan exactamente ×1.15 en desktop (1280px) y mobile (375px).
+- [x] Texto 130 — corregido: `html.a11y-text-130 { font-size: 130%; --a11y-text-scale: 1.3; }`. Mismos 13 elementos escalan exactamente ×1.30 en ambos viewports. Se corrigió además la dilución por `clamp()` con `vw` en `--text-h1`/`--text-h2` (el componente `vw` no es root-relative, así que no se beneficiaba del cambio de font-size raíz): ahora se multiplica explícitamente por `var(--a11y-text-scale)`. Sin scroll horizontal verificado en 320px/375px/1280px, con y sin el menú móvil abierto. El icono decorativo del switch de tema (`font-size: 17px` fijo, usado solo para dimensionar en `em`) no escala, como corresponde. Persistencia confirmada tras reload en mobile (clase `a11y-text-130` permanece en `<html>`).
 - [x] Reducir animaciones — `body.a11y-reduce-motion` fuerza `--transition-duration: 0s` (mismo mecanismo que `prefers-reduced-motion`, ver bloque REDUCED MOTION).
 - [x] Subrayar enlaces — `body.a11y-underline-links a:not(.btn-primary):not(.btn-whatsapp):not(.site-logo)`.
 - [x] Restablecer — botón `#a11y-reset` limpia la clave `accesibilidad` de `localStorage` y quita todas las clases aplicadas.
@@ -119,40 +119,40 @@
 
 ## Fase 3
 
-- [ ] Paleta exacta.
-- [ ] Lora e Inter.
-- [ ] Oscuro rediseñado.
-- [ ] Alto contraste coherente.
-- [ ] Hero fiel.
-- [ ] Eyebrow.
-- [ ] Dos CTA.
-- [ ] Forma CSS.
-- [ ] Hojas SVG.
-- [ ] Puntos.
-- [ ] Sobre nosotros mejorado.
-- [ ] Tarjetas 01–03.
-- [ ] Nuevas ilustraciones.
-- [ ] Sin altura 520 px.
-- [ ] Testimonios con iniciales.
-- [ ] Iframe integrado.
-- [ ] FAQ refinada.
-- [ ] Contacto refinado.
-- [ ] Footer en columnas.
-- [ ] WhatsApp derecho.
-- [ ] Accesibilidad izquierdo.
-- [ ] Translúcidos al detener scroll.
-- [ ] Opacos con interacción.
-- [ ] Nunca invisibles.
-- [ ] No cubren contenido.
-- [ ] Safe areas.
-- [ ] Animación sobria.
-- [ ] Reduced motion.
-- [ ] WebP.
-- [ ] srcset.
-- [ ] Originales.
-- [ ] Dimensiones.
-- [ ] Sin imágenes rotas.
-- [ ] Sin scroll horizontal.
+- [x] Paleta exacta — `:root` usa `#FDFBF7`/`#1A1A1A`/`#C29B57`/`#EBE3D5` sin desviación; variables nuevas (`--radius-organic`, `--color-accent-soft` vía `color-mix` con fallback `rgba`, `--space-section`, `--z-decoration`/`--z-content`/`--z-fab`) agregadas sin renombrar las existentes.
+- [x] Lora e Inter — cargadas en `index.html` (`<link>` a Google Fonts) y consumidas por `--font-display`/`--font-body` en todos los encabezados, cuerpo y componentes nuevos (botones, eyebrow, feature-card, etc.).
+- [x] Oscuro rediseñado — `body.dark-theme` redefine `--color-bg/#14110D`, `--color-text/#F3EDE3`, `--color-accent/#D9AE6B`, `--color-surface/#211C16`, `--color-border/#3A322A`, `--shadow-sm/md` y `--color-card`, valores exactos verificados contra el spec.
+- [x] Alto contraste coherente — `body.a11y-high-contrast` con `#FFFFFF/#000000/#6B4A12`, `:focus-visible` en negro puro 3px, bordes 2px negros en `.btn-primary`/`.btn-secondary`/`.feature-card`; `body.dark-theme.a11y-high-contrast` combinado sin conflicto de selector (Playwright confirmó `a11y-high-contrast` se aplica correctamente vía toggle).
+- [x] Hero fiel — estructura de dos columnas en desktop, contenido y CTA primario sin cambios de copy.
+- [x] Eyebrow — `<p class="eyebrow">Pastoral Juvenil · San Martín</p>` antes del H1; Playwright confirmó visible y precede al `<h1>` en el DOM.
+- [x] Dos CTA — `btn-primary` ("Quiero participar") + `btn-secondary` ("Ver ubicación") en `.hero-actions`; el segundo hace scroll suave a `#ubicacion` sin `target="_blank"` (confirmado con Playwright: no se abre ninguna pestaña nueva).
+- [x] Forma CSS — decoraciones `.decor--blob`/`.decor--dot` con gradientes y `border-radius` asimétrico, sin SVG, dentro de `.hero-grid` (`position: relative`), `z-index: var(--z-decoration)`, `aria-hidden="true"`.
+- [x] Hojas SVG — `img/decoracion-hojas.svg` reutilizado como `.decor--leaf` en "Sobre nosotros" y agregado también al Hero (`.decor--leaf-hero`) para cubrir el requisito de la sección Hero en `design.md`; mismo asset, sin duplicar archivos.
+- [x] Puntos — `.decor--dot-1`/`.decor--dot-2`, círculos vía `border-radius: 50%` y `background: var(--color-accent)`, opacidad 0.35.
+- [x] Sobre nosotros mejorado — `.media-frame` con `--radius-organic`, texto limitado a `max-width: 65ch`; se agregó una decoración adicional discreta (`.decor--blob-soft`, 140px, opacidad 0.6) porque el leaf solo no cubría el pedido explícito de "forma orgánica + decoración" del design.md; contenido de Fase 1 sin cambios.
+- [x] Tarjetas 01–03 — numeración vía `counter-reset: step` en `.first-step-grid` + `counter-increment`/`content: counter(step, decimal-leading-zero)` en `::before` de cada `article`, sin tocar el HTML ni hardcodear texto.
+- [x] Nuevas ilustraciones — `img/actividad-retiro.svg`, `actividad-servicio.svg`, `actividad-encuentro.svg` verificados: `viewBox="0 0 64 64"`, trazos simples con `stroke="currentColor"`, sin texto embebido.
+- [x] Sin altura 520 px — búsqueda en todo `css/styles.css` confirma que no existe ningún `min-height: 520px`; `.feature-card` usa `min-height: auto`.
+- [x] Testimonios con iniciales — preservado de Fase 1 (nombre + inicial de apellido); se agregó comilla decorativa vía `::before` en `blockquote` con `--color-accent-soft`, sin alterar la estructura `figure`/`blockquote`/`figcaption`.
+- [x] Iframe integrado — `.media-frame.media-frame--map` envuelve el iframe con esquina orgánica asimétrica; `src`, `title` y atributos del iframe verificados idénticos a Fase 1/2 (Playwright confirmó `src` apunta al mismo embed de Google Maps).
+- [x] FAQ refinada — bordes, sombra y `summary::after` con `+`/rotación 45° al abrir; lógica de "una sola abierta" en `main.js` sin tocar (Playwright confirmó exclusividad).
+- [x] Contacto refinado — espaciado y jerarquía visual ajustados vía CSS existente; lógica de validación/envío por WhatsApp intacta (Playwright confirmó validación de campo vacío con `aria-invalid` y mensaje de error).
+- [x] Footer en columnas — reestructurado en 3 columnas reales (nombre/marca, ubicación, Instagram) vía `display: grid; grid-template-columns: repeat(3, 1fr)` desde 1024px; se separó el `<address>` de `.footer-brand` a su propia columna `.footer-location` en el HTML (solo reestructuración visual, sin cambiar el texto). Se agregó franja decorativa de hojas en `footer::before` con `background-image` de `decoracion-hojas.svg`, opacidad 0.18.
+- [x] WhatsApp derecho — `.btn-fab` con `right`/`bottom` usando `env(safe-area-inset-*)`; Playwright confirmó posición en la mitad derecha del viewport.
+- [x] Accesibilidad izquierdo — `.a11y-toggle` sin reubicar, `left`/`bottom` con `env(safe-area-inset-*)`; Playwright confirmó posición en la mitad izquierda.
+- [x] Translúcidos al detener scroll — `initFloatingControls()` en `main.js`, función nueva y aislada, agrega `.is-idle` (opacidad 0.6) tras 3s sin scroll vía `setTimeout` reiniciado en cada evento; throttle de scroll con `requestAnimationFrame`, no `setInterval`/debounce. Playwright confirmó opacidad 0.6 tras 3.2s de inactividad.
+- [x] Opacos con interacción — `scroll`, `mouseenter`/`focus` (vía listeners) y `touchstart` restauran opacidad 1; Playwright confirmó opacidad vuelve a 1 con `hover`.
+- [x] Nunca invisibles — `.floating-control.is-idle { opacity: 0.6 }`, nunca 0; verificado en CSS y en Playwright (idle=0.6, no 0).
+- [x] No cubren contenido — controles flotantes en posición fija de esquina, sin overlap con el contenido principal en ningún viewport probado (320/375/1280px).
+- [x] Safe areas — `max(var(--space-sm), env(safe-area-inset-*))` en ambos flotantes.
+- [x] Animación sobria — hover `scale(1.03)` en botones/FAB, entrada de `.feature-card` vía `IntersectionObserver` (`initScrollReveal()`, función nueva y aislada, separada de `initFloatingControls()`), `opacity 0→1` + `translateY(12px→0)` en 0.4s ease-out; sin parallax, video ni animación infinita (confirmado: cero `@keyframes` en todo el CSS).
+- [x] Reduced motion — `initScrollReveal()` revela todas las cards de inmediato si `prefers-reduced-motion` o `body.a11y-reduce-motion` están activos (evita el observer en vez de dejar `opacity: 0` permanente); transición de opacidad de flotantes usa `var(--transition-duration)`, que el bloque REDUCED MOTION pone en `0s` bajo ambos disparadores, sin lógica duplicada en JS.
+- [x] WebP — `Hero-480/768/1200/1600.webp` y `Sobre_nosotros-480/640/960.webp` verificados existentes y no vacíos.
+- [x] srcset — `<picture><source type="image/webp" srcset=... sizes=...>` con fallback `<img>` en Hero y Sobre nosotros.
+- [x] Originales — `img/Hero.jpeg` (1600×1200) y `img/Sobre_nosotros.png` (1448×1086) conservados como fallback, sin eliminar.
+- [x] Dimensiones — `width`/`height` declarados (800×600, ratio 4:3) coinciden con la relación de aspecto real de los archivos verificada con Pillow.
+- [x] Sin imágenes rotas — verificado con Playwright (consola sin errores de red) tras corregir una ruta rota encontrada en auditoría: `footer::before` apuntaba a `img/decoracion-hojas.svg` en vez de `../img/decoracion-hojas.svg` (las rutas en CSS son relativas al archivo CSS, no a la raíz del sitio); corregido.
+- [x] Sin scroll horizontal — Playwright confirmó `scrollWidth <= clientWidth` en 320px y 375px, con todas las decoraciones nuevas activas.
 
 ## Fase 4
 
